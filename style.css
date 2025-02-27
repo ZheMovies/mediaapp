@@ -1,56 +1,79 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 20px;
+/* Reset de estilos */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.media-list {
-    display: flex;
-    flex-wrap: wrap;
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+/* Cards de filmes e séries */
+#media-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-    justify-content: center;
+    padding: 20px;
 }
 
-.card {
-    width: 300px;
+.media-card {
     background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     transition: transform 0.3s ease;
 }
 
-.card img {
+.media-card:hover {
+    transform: scale(1.05);
+}
+
+.media-img {
     width: 100%;
     height: auto;
-    border-bottom: 1px solid #ddd;
 }
 
-.card-info {
-    padding: 15px;
-}
-
-.card-info h3 {
+.media-title {
     font-size: 1.2rem;
+    font-weight: bold;
     margin: 10px 0;
+    padding: 0 10px;
 }
 
-.card-info button {
+.media-release,
+.media-vote {
+    font-size: 0.9rem;
+    color: #555;
+    padding: 0 10px;
+}
+
+.watch-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
+    font-size: 1rem;
+    text-align: center;
     cursor: pointer;
+    border-radius: 0 0 8px 8px;
     transition: background-color 0.3s ease;
 }
 
-.card-info button:hover {
+.watch-btn:hover {
     background-color: #0056b3;
-}
-
-.card:hover {
-    transform: translateY(-5px);
 }
