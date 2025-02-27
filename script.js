@@ -1,111 +1,64 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const mediaList = {
-        series: [
-            {
-                id: 1399, // ID da série
-                type: 'tv', // Tipo (tv ou movie)
-                driveLink: "https://t.me/yourserieslink", // Link do Telegram da série inteira
-                seasons: [
-                    {
-                        season: 1,
-                        episodes: [
-                            { episode: 1, driveLink: "https://t.me/yourseason1episode1" }, // Episódio 1
-                            { episode: 2, driveLink: "https://t.me/yourseason1episode2" }  // Episódio 2
-                        ]
-                    },
-                    {
-                        season: 2,
-                        episodes: [
-                            { episode: 1, driveLink: "https://t.me/yourseason2episode1" }, // Episódio 1
-                        ]
-                    }
-                ]
-            }
-        ],
-        movies: [
-            {
-                id: 12345, // ID do filme
-                type: 'movie', // Tipo (tv ou movie)
-                driveLink: "https://t.me/yourmovieLink", // Link do Telegram do filme
-            }
-        ]
-    };
+document.addEventListener("DOMContentLoaded", function () {
+    const mediaList = document.getElementById("media-list");
 
-    const mediaContainer = document.getElementById("media-list");
-    if (!mediaContainer) {
-        console.error("Elemento 'media-list' não encontrado!");
-        return;
-    }
-
-    // Função para buscar as informações do filme ou série via API
-    async function fetchMediaDetails(id, type) {
-        try {
-            const apiKey = '6fef90efb83322056c9bf84cdde87872'; // Substitua pela sua chave da API
-            const response = await fetch(https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}&language=pt-BR);
-            const data = await response.json();
-
-            if (data.errors) {
-                console.error('Erro ao buscar dados:', data.errors);
-                return null;
-            }
-
-            return {
-                title: data.title || data.name,
-                image: https://image.tmdb.org/t/p/w500${data.poster_path},
-                backdrop: https://image.tmdb.org/t/p/w1280${data.backdrop_path},
-                description: data.overview,
-                releaseDate: data.release_date || data.first_air_date,
-                voteAverage: data.vote_average,
-                genres: data.genres.map(g => g.name).join(', '),
-                runtime: data.runtime ? ${data.runtime} min : 'Não disponível'
-            };
-        } catch (error) {
-            console.error("Erro ao fazer a requisição à API:", error);
-            return null;
+    // Exemplo de dados
+    const mediaData = [
+        {
+            id: 199,
+            type: 'tv',
+            title: 'Game of Thrones',
+            image: 'https://image.tmdb.org/t/p/w500/5bRrYy0HZt3nUq9fRrn0y5sYWoi.jpg',
+            voteAverage: 8.4,
+            releaseDate: '2011-04-17'
+        },
+        {
+            id: 299536,
+            type: 'movie',
+            title: 'Avengers: Endgame',
+            image: 'https://image.tmdb.org/t/p/w500/3h3bp9B0VVfu4uB2K9qFq9mp39S.jpg',
+            voteAverage: 8.4,
+            releaseDate: '2019-04-26'
         }
-    }
+    ];
 
-    // Função para criar um card de filme ou série
-    async function createMediaCard(media) {
-        const mediaDetails = await fetchMediaDetails(media.id, media.type);
-
-        if (!mediaDetails) {
-            console.error("Não foi possível obter os detalhes para o media id:", media.id);
-            return;
-        }
-
+    // Função para criar o card
+    function createCard(media) {
         const card = document.createElement("div");
-        card.classList.add("card");
+        card.classList.add("media-card");
 
         const img = document.createElement("img");
-        img.src = mediaDetails.image;
-        card.appendChild(img);
-
-        const info = document.createElement("div");
-        info.classList.add("card-info");
+        img.src = media.image;
+        img.alt = media.title;
+        img.classList.add("media-img");
 
         const title = document.createElement("h3");
-        title.innerText = mediaDetails.title;
-        info.appendChild(title);
+        title.textContent = media.title;
+        title.classList.add("media-title");
+
+        const releaseDate = document.createElement("p");
+        releaseDate.textContent = Lançamento: ${media.releaseDate};
+        releaseDate.classList.add("media-release");
+
+        const voteAverage = document.createElement("p");
+        voteAverage.textContent = Nota: ${media.voteAverage};
+        voteAverage.classList.add("media-vote");
 
         const button = document.createElement("button");
-        button.innerText = "Assistir";
+        button.textContent = "Assistir";
+        button.classList.add("watch-btn");
         button.onclick = function () {
             window.location.href = detalhe.html?id=${media.id}&type=${media.type};
         };
-        info.appendChild(button);
 
-        card.appendChild(info);
-        mediaContainer.appendChild(card);
+        card.appendChild(img);
+        card.appendChild(title);
+        card.appendChild(releaseDate);
+        card.appendChild(voteAverage);
+        card.appendChild(button);
+
+        mediaList.appendChild(card);
     }
 
-    // Criar cards para séries
-    mediaList.series.forEach(series => {
-        createMediaCard(series);
-    });
-
-    // Criar cards para filmes
-    mediaList.movies.forEach(movie => {
-        createMediaCard(movie);
-    });
+    // Loop para criar os cards a partir dos dados
+    mediaData.forEach(createCard);
 });
